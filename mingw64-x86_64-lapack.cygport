@@ -1,0 +1,43 @@
+CROSS_HOST="x86_64-w64-mingw32"
+inherit cross cmake
+
+NAME="mingw64-x86_64-lapack"
+VERSION=3.7.0
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Linear Algebra Package for Win64 toolchain"
+DESCRIPTION="LAPACK is written in Fortran 90 and provides routines for solving
+systems of simultaneous linear equations, least-squares solutions of linear
+systems of equations, eigenvalue problems, and singular value problems. LAPACK
+routines are written so that as much as possible of the computation is performed
+by calls to the Basic Linear Algebra Subprograms (BLAS)."
+HOMEPAGE="http://www.netlib.org/lapack/"
+SRC_URI="${HOMEPAGE}/lapack-${VERSION}.tgz"
+SRC_DIR="lapack-${VERSION}"
+
+CYGCMAKE_ARGS="-DBUILD_SHARED_LIBS=ON -DCBLAS=ON"
+
+PKG_NAMES="mingw64-x86_64-blas mingw64-x86_64-cblas mingw64-x86_64-lapack"
+mingw64_x86_64_blas_DOCS="LICENSE README"
+mingw64_x86_64_blas_CONTENTS="
+	${CROSS_BINDIR#/}/libblas.dll
+	${CROSS_LIBDIR#/}/libblas.dll.a
+	${CROSS_LIBDIR#/}/pkgconfig/blas.pc
+"
+mingw64_x86_64_cblas_DOCS="CBLAS/README"
+mingw64_x86_64_cblas_CONTENTS="
+	${CROSS_BINDIR#/}/libcblas.dll
+	${CROSS_INCLUDEDIR#/}/cblas*.h
+	${CROSS_LIBDIR#/}/cmake/cblas-${VERSION}/
+	${CROSS_LIBDIR#/}/libcblas.dll.a
+	${CROSS_LIBDIR#/}/pkgconfig/cblas.pc
+"
+mingw64_x86_64_lapack_DOCS="LICENSE README"
+mingw64_x86_64_lapack_CONTENTS="
+	${CROSS_BINDIR#/}/liblapack.dll
+	${CROSS_BINDIR#/}/libtmglib.dll
+	${CROSS_LIBDIR#/}/cmake/lapack-${VERSION}/
+	${CROSS_LIBDIR#/}/liblapack.dll.a
+	${CROSS_LIBDIR#/}/libtmglib.dll.a
+	${CROSS_LIBDIR#/}/pkgconfig/lapack.pc
+"
